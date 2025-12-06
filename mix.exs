@@ -69,7 +69,9 @@ defmodule NsaiRegistry.MixProject do
       main: "readme",
       source_ref: "v#{@version}",
       source_url: @source_url,
-      extras: ["README.md"]
+      assets: %{"assets" => "assets"},
+      logo: "assets/nsai_registry.svg",
+      extras: ["README.md", "LICENSE"]
     ]
   end
 
@@ -78,7 +80,7 @@ defmodule NsaiRegistry.MixProject do
       name: "nsai_registry",
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url},
-      files: ~w(lib mix.exs README.md)
+      files: ~w(lib mix.exs README.md LICENSE assets)
     ]
   end
 end
