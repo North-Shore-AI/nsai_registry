@@ -21,6 +21,7 @@ defmodule NsaiRegistry.Registry do
 
   # Client API
 
+  @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
@@ -39,6 +40,7 @@ defmodule NsaiRegistry.Registry do
       ...> })
       {:ok, %NsaiRegistry.Service{}}
   """
+  @spec register(map()) :: {:ok, Service.t()} | {:error, term()}
   def register(attrs) do
     GenServer.call(__MODULE__, {:register, attrs})
   end
@@ -46,6 +48,7 @@ defmodule NsaiRegistry.Registry do
   @doc """
   Deregisters a service by ID.
   """
+  @spec deregister(String.t()) :: :ok | {:error, term()}
   def deregister(service_id) do
     GenServer.call(__MODULE__, {:deregister, service_id})
   end
@@ -53,6 +56,7 @@ defmodule NsaiRegistry.Registry do
   @doc """
   Looks up a service by name (returns first match).
   """
+  @spec lookup(String.t()) :: {:ok, Service.t() | nil} | {:error, term()}
   def lookup(service_name) do
     GenServer.call(__MODULE__, {:lookup, service_name})
   end
@@ -60,6 +64,7 @@ defmodule NsaiRegistry.Registry do
   @doc """
   Looks up a service by ID.
   """
+  @spec lookup_by_id(String.t()) :: {:ok, Service.t()} | {:error, term()}
   def lookup_by_id(service_id) do
     GenServer.call(__MODULE__, {:lookup_by_id, service_id})
   end
@@ -67,6 +72,7 @@ defmodule NsaiRegistry.Registry do
   @doc """
   Looks up all services by name.
   """
+  @spec lookup_all(String.t()) :: {:ok, [Service.t()]} | {:error, term()}
   def lookup_all(service_name) do
     GenServer.call(__MODULE__, {:lookup_all, service_name})
   end
@@ -74,6 +80,7 @@ defmodule NsaiRegistry.Registry do
   @doc """
   Lists all registered services.
   """
+  @spec list_all() :: {:ok, [Service.t()]} | {:error, term()}
   def list_all do
     GenServer.call(__MODULE__, :list_all)
   end
@@ -81,6 +88,7 @@ defmodule NsaiRegistry.Registry do
   @doc """
   Updates a service status.
   """
+  @spec update_status(String.t(), Service.status()) :: :ok | {:error, term()}
   def update_status(service_id, status) do
     GenServer.call(__MODULE__, {:update_status, service_id, status})
   end

@@ -27,6 +27,7 @@ defmodule NsaiRegistry.HealthChecker do
 
   # Client API
 
+  @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
@@ -34,6 +35,7 @@ defmodule NsaiRegistry.HealthChecker do
   @doc """
   Triggers an immediate health check for all services.
   """
+  @spec check_now() :: :ok
   def check_now do
     GenServer.cast(__MODULE__, :check_now)
   end
@@ -41,6 +43,7 @@ defmodule NsaiRegistry.HealthChecker do
   @doc """
   Triggers a health check for a specific service.
   """
+  @spec check_service(String.t()) :: :ok
   def check_service(service_id) do
     GenServer.cast(__MODULE__, {:check_service, service_id})
   end
@@ -118,27 +121,57 @@ defmodule NsaiRegistry.HealthChecker do
   end
 
   defp check_and_update_service(%Service{} = service, state) do
-    health_check_url = Service.health_check_url(service)
+    service_id = Service.id(service)
+
+    # Use circuit breaker if available
+    result =
+      if Process.whereis(NsaiRegistry.CircuitBreaker) do
+        NsaiRegistry.CircuitBreaker.call(service_id, fn ->
+          perform_health_check(service, state.timeout)
+        end)
+      else
+        perform_health_check(service, state.timeout)
+      end
 
     result =
       Telemetry.health_check(
-        fn ->
-          perform_http_check(health_check_url, state.timeout)
-        end,
-        %{service_id: Service.id(service), service_name: service.name}
+        fn -> result end,
+        %{service_id: service_id, service_name: service.name}
       )
 
     case result do
       :ok ->
         update_service_status(service, :healthy)
 
-        {:noreply,
-         %{state | failure_counts: Map.delete(state.failure_counts, Service.id(service))}}
+        {:noreply, %{state | failure_counts: Map.delete(state.failure_counts, service_id)}}
+
+      {:error, :circuit_open} ->
+        # Circuit breaker is open, skip this check
+        Logger.debug("Skipping health check for #{service.name} - circuit breaker open")
+        {:noreply, state}
 
       {:error, reason} ->
         Logger.warning("Health check failed for #{service.name}: #{inspect(reason)}")
         handle_health_check_failure(service, state)
     end
+  end
+
+  defp perform_health_check(%Service{protocol: :http} = service, timeout) do
+    health_check_url = Service.health_check_url(service)
+    perform_http_check(health_check_url, timeout)
+  end
+
+  defp perform_health_check(%Service{protocol: :https} = service, timeout) do
+    health_check_url = Service.health_check_url(service)
+    perform_http_check(health_check_url, timeout)
+  end
+
+  defp perform_health_check(%Service{protocol: :tcp} = service, timeout) do
+    NsaiRegistry.HealthCheck.TCP.check(service.host, service.port, timeout)
+  end
+
+  defp perform_health_check(%Service{protocol: :grpc} = service, timeout) do
+    NsaiRegistry.HealthCheck.GRPC.check(service.host, service.port, timeout)
   end
 
   defp perform_http_check(url, timeout) do

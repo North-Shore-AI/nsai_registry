@@ -1,0 +1,30 @@
+defmodule NsaiRegistry.Repo.Migrations.CreateServices do
+  @moduledoc """
+  Migration to create the services table for the Postgres storage backend.
+
+  To use this migration:
+  1. Rename this file to remove the .template extension
+  2. Update the timestamp prefix to the current timestamp
+  3. Run `mix ecto.migrate`
+  """
+  use Ecto.Migration
+
+  def change do
+    create table(:services, primary_key: false) do
+      add :id, :string, primary_key: true
+      add :name, :string, null: false
+      add :host, :string, null: false
+      add :port, :integer, null: false
+      add :protocol, :string, null: false
+      add :health_check, :string
+      add :metadata, :map
+      add :status, :string, null: false
+      add :registered_at, :utc_datetime, null: false
+      add :last_check, :utc_datetime
+    end
+
+    create index(:services, [:name])
+    create index(:services, [:status])
+    create index(:services, [:registered_at])
+  end
+end
