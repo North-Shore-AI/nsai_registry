@@ -111,34 +111,4 @@
     <line x1="100" y1="200" x2="300" y2="200" stroke="#0EA5E9" stroke-width="1.5" opacity="0.3"/>
     <line x1="130" y1="260" x2="270" y2="260" stroke="#0EA5E9" stroke-width="1.5" opacity="0.3"/>
   </g>
-
-  <!-- Text labels -->
-  <g>
-    <!-- "NSAI" text at top -->
-    <text x="200" y="70"
-          font-family="Arial, sans-serif"
-          font-size="32"
-          font-weight="bold"
-          fill="#14B8A6"
-          text-anchor="middle"
-          filter="url(#glow)">NSAI</text>
-
-    <!-- "REGISTRY" text at bottom -->
-    <text x="200" y="350"
-          font-family="Arial, sans-serif"
-          font-size="28"
-          font-weight="bold"
-          fill="#14B8A6"
-          text-anchor="middle"
-          filter="url(#glow)">REGISTRY</text>
-  </g>
-
-  <!-- Subtitle -->
-  <text x="200" y="420"
-        font-family="Arial, sans-serif"
-        font-size="16"
-        font-weight="normal"
-        fill="#0EA5E9"
-        text-anchor="middle"
-        opacity="0.8">Service Discovery & Mesh</text>
 </svg>
