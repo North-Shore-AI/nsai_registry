@@ -1,0 +1,144 @@
+<svg width="400" height="460" viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for depth and modern look -->
+    <linearGradient id="hexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0EA5E9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0F172A;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0EA5E9;stop-opacity:1" />
+    </linearGradient>
+
+    <radialGradient id="glowGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#14B8A6;stop-opacity:0" />
+    </radialGradient>
+
+    <!-- Filter for glow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Main hexagon background -->
+  <g filter="url(#shadow)">
+    <polygon points="200,20 340,110 340,290 200,380 60,290 60,110"
+             fill="url(#hexGradient)"
+             stroke="#0EA5E9"
+             stroke-width="3"/>
+  </g>
+
+  <!-- Inner hexagon border for depth -->
+  <polygon points="200,40 320,120 320,280 200,360 80,280 80,120"
+           fill="none"
+           stroke="#14B8A6"
+           stroke-width="2"
+           opacity="0.5"/>
+
+  <!-- Service mesh/network visualization in center -->
+  <g opacity="0.9">
+    <!-- Central registry node (larger, pulsing) -->
+    <circle cx="200" cy="200" r="50" fill="url(#glowGradient)" opacity="0.4"/>
+    <circle cx="200" cy="200" r="28" fill="url(#nodeGradient)" stroke="#14B8A6" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="200" cy="200" r="18" fill="#0F172A" opacity="0.8"/>
+
+    <!-- Service nodes positioned around the center in a mesh pattern -->
+    <!-- Top nodes -->
+    <circle cx="200" cy="100" r="16" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="200" cy="100" r="8" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Upper left -->
+    <circle cx="130" cy="140" r="14" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="130" cy="140" r="7" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Upper right -->
+    <circle cx="270" cy="140" r="14" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="270" cy="140" r="7" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Middle left -->
+    <circle cx="100" cy="200" r="16" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="100" cy="200" r="8" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Middle right -->
+    <circle cx="300" cy="200" r="16" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="300" cy="200" r="8" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Lower left -->
+    <circle cx="130" cy="260" r="14" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="130" cy="260" r="7" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Lower right -->
+    <circle cx="270" cy="260" r="14" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="270" cy="260" r="7" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Bottom node -->
+    <circle cx="200" cy="300" r="16" fill="url(#nodeGradient)" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="200" cy="300" r="8" fill="#0F172A" opacity="0.7"/>
+
+    <!-- Connection lines to central registry (thicker, with glow) -->
+    <line x1="200" y1="200" x2="200" y2="100" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+    <line x1="200" y1="200" x2="130" y2="140" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+    <line x1="200" y1="200" x2="270" y2="140" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+    <line x1="200" y1="200" x2="100" y2="200" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+    <line x1="200" y1="200" x2="300" y2="200" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+    <line x1="200" y1="200" x2="130" y2="260" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+    <line x1="200" y1="200" x2="270" y2="260" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+    <line x1="200" y1="200" x2="200" y2="300" stroke="#14B8A6" stroke-width="3" opacity="0.6" filter="url(#glow)"/>
+
+    <!-- Mesh connections between peripheral nodes (thinner) -->
+    <line x1="200" y1="100" x2="130" y2="140" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="200" y1="100" x2="270" y2="140" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="130" y1="140" x2="100" y2="200" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="270" y1="140" x2="300" y2="200" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="100" y1="200" x2="130" y2="260" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="300" y1="200" x2="270" y2="260" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="130" y1="260" x2="200" y2="300" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="270" y1="260" x2="200" y2="300" stroke="#0EA5E9" stroke-width="1.5" opacity="0.4"/>
+
+    <!-- Additional cross-mesh connections -->
+    <line x1="130" y1="140" x2="270" y2="140" stroke="#0EA5E9" stroke-width="1.5" opacity="0.3"/>
+    <line x1="100" y1="200" x2="300" y2="200" stroke="#0EA5E9" stroke-width="1.5" opacity="0.3"/>
+    <line x1="130" y1="260" x2="270" y2="260" stroke="#0EA5E9" stroke-width="1.5" opacity="0.3"/>
+  </g>
+
+  <!-- Text labels -->
+  <g>
+    <!-- "NSAI" text at top -->
+    <text x="200" y="70"
+          font-family="Arial, sans-serif"
+          font-size="32"
+          font-weight="bold"
+          fill="#14B8A6"
+          text-anchor="middle"
+          filter="url(#glow)">NSAI</text>
+
+    <!-- "REGISTRY" text at bottom -->
+    <text x="200" y="350"
+          font-family="Arial, sans-serif"
+          font-size="28"
+          font-weight="bold"
+          fill="#14B8A6"
+          text-anchor="middle"
+          filter="url(#glow)">REGISTRY</text>
+  </g>
+
+  <!-- Subtitle -->
+  <text x="200" y="420"
+        font-family="Arial, sans-serif"
+        font-size="16"
+        font-weight="normal"
+        fill="#0EA5E9"
+        text-anchor="middle"
+        opacity="0.8">Service Discovery & Mesh</text>
+</svg>
