@@ -151,7 +151,7 @@ defmodule NsaiRegistry.ServiceTest do
       updated = Service.update_status(service, :healthy)
 
       assert updated.status == :healthy
-      assert updated.last_check != nil
+      assert %DateTime{} = updated.last_check
     end
 
     test "updates status to unhealthy" do
@@ -159,7 +159,7 @@ defmodule NsaiRegistry.ServiceTest do
       updated = Service.update_status(service, :unhealthy)
 
       assert updated.status == :unhealthy
-      assert updated.last_check != nil
+      assert %DateTime{} = updated.last_check
     end
 
     test "updates status to unknown" do
@@ -168,7 +168,7 @@ defmodule NsaiRegistry.ServiceTest do
       unknown = Service.update_status(healthy, :unknown)
 
       assert unknown.status == :unknown
-      assert unknown.last_check != nil
+      assert %DateTime{} = unknown.last_check
     end
 
     test "updates last_check timestamp on each status change" do
