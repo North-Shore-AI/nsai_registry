@@ -41,10 +41,11 @@ defmodule NsaiRegistry.Storage.ETS do
 
   @impl true
   def lookup(state, service_name) do
-    case lookup_all(state, service_name) do
-      {:ok, [service | _]} -> {:ok, service}
-      {:ok, []} -> {:ok, nil}
-      error -> error
+    {:ok, services} = lookup_all(state, service_name)
+
+    case services do
+      [service | _] -> {:ok, service}
+      [] -> {:ok, nil}
     end
   end
 
